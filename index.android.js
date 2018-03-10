@@ -14,7 +14,7 @@
  import Beacons        from 'react-native-beacons-manager';
 
 
- class reactNativeBeaconExample extends Component {
+ class BlindconApp extends Component {
    constructor(props) {
      super(props);
      // Create our dataSource which will be displayed in the ListView
@@ -135,6 +135,6 @@
  });
 
  AppRegistry.registerComponent(
-   'reactNativeBeaconExample',
-   () => reactNativeBeaconExample
+   'BlindconApp',
+   () => BlindconApp
  );

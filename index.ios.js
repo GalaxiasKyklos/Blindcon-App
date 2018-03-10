@@ -15,7 +15,7 @@
  import BluetoothState         from 'react-native-bluetooth-state';
 
 
- class reactNativeBeaconExample extends Component {
+ class BlindconApp extends Component {
    constructor(props) {
      super(props);
      // Create our dataSource which will be displayed in the ListView
@@ -149,6 +149,6 @@
 
 
  AppRegistry.registerComponent(
-   'reactNativeBeaconExample',
-   () => reactNativeBeaconExample
+   'BlindconApp',
+   () => BlindconApp
  );
