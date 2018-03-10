@@ -23,7 +23,7 @@
      );
      this.state = {
        // region information
-       uuidRef: '7b44b47b-52a1-5381-90c2-f09b6838c5d4',
+       uuidRef: ['6ebca247-81ae-40f5-b1b9-1dd796b17b80', 'b24b65c2-92ee-42df-b161-477e9b7a4e7c'],
        // React Native ListView datasource initialization
        dataSource: ds.cloneWithRows([])
      };
@@ -35,11 +35,10 @@
      //
      Beacons.detectIBeacons();
 
-     const uuid = this.state.uuidRef;
+    //  const uuid = this.state.uuidRef;
      Beacons
        .startRangingBeaconsInRegion(
-         'REGION1',
-         uuid
+         'ITESO'
        )
        .then(
          () => console.log('Beacons ranging started succesfully')
