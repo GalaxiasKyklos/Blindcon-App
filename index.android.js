@@ -8,7 +8,7 @@ class BlindconApp extends Component {
   constructor(props) {
     super(props);
     // Create our dataSource which will be displayed in the ListView
-    var ds = new ListView.DataSource({
+    const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2 }
     );
     this.state = {
