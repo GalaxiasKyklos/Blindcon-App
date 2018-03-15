@@ -22,7 +22,7 @@
  "scripts": {
   "start": "node node_modules/react-native/local-cli/cli.js start",
   "test": "jest",
-  "bundle-android": "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --sourcemap-output android/app/src/main/assets/index.android.map --assets-dest android/app/src/main/res/",
+  "bundle-android": "react-native bundle --platform android --dev true --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --sourcemap-output android/app/src/main/assets/index.android.map --assets-dest android/app/src/main/res/",
   "run-android": "react-native run-android",
   "bundle-run": "yarn bundle-android && yarn run-android"
  },
