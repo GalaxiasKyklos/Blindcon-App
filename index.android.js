@@ -9,7 +9,7 @@ import BeaconSensor from './BeaconSensor';
 const Components = {
   NextPage,
   BeaconSensor
-}
+};
 
 class BlindconApp extends Component {
   constructor(props) {
