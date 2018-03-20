@@ -69,9 +69,7 @@ class BeaconSensor extends Component {
         />
         <Button
           title="Go to next page"
-          onPress={() => {
-            navigate('Home');
-          }}
+          onPress={this.props.change}
         />
       </View>
     );
