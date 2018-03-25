@@ -3,12 +3,12 @@
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
 
-import NextPage from './Components/test';
+import ListPlaces from './Components/ListPlaces';
 import BeaconSensor from './Components/BeaconSensor';
 import Heading from './Components/Heading';
 
 const Components = {
-  NextPage,
+  ListPlaces,
   BeaconSensor
 };
 
@@ -21,9 +21,9 @@ class BlindconApp extends Component {
     };
   }
 
-  goToNext = () => {
+  goToListPlaces = () => {
     this.setState({
-      Current: Components.NextPage
+      Current: Components.ListPlaces
     });
   }
 
@@ -38,7 +38,7 @@ class BlindconApp extends Component {
 
     return (
       <Heading>
-        <Current {...this.props} change={ Current === NextPage ? this.goToBeaconSensor : this.goToNext } />
+        <Current {...this.props} change={ Current === ListPlaces ? this.goToBeaconSensor : this.goToListPlaces } />
       </Heading>
     );
   }
