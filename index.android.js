@@ -14,19 +14,19 @@ class BlindconApp extends Component {
     super(props);
 
     this.state = {
-      Current: Components.BeaconSensor
+      Current: Components.ListPlaces,
     };
   }
 
   goToListPlaces = () => {
     this.setState({
-      Current: Components.ListPlaces
+      Current: Components.ListPlaces,
     });
   }
 
   goToBeaconSensor = () => {
     this.setState({
-      Current: Components.BeaconSensor
+      Current: Components.BeaconSensor,
     });
   }
 

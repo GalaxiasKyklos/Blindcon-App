@@ -1,55 +1,89 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, Button } from 'react-native';
+import {
+  AppRegistry,
+  Button,
+  ListView,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+  Vibration,
+} from 'react-native';
+import { getPlaces } from '../data-source';
 
 class ListPlaces extends Component {
   constructor(props) {
     super(props);
+    const places = getPlaces();
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2 }
+    );
+    this.state = {
+      places: ds.cloneWithRows(places),
+    };
   }
 
   render() {
+    const { places } = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.smallText}>Hola</Text>
+        <Text style={styles.headline}>
+          Chose a destination
+        </Text>
+        <ListView
+          dataSource={places}
+          enableEmptySections={true}
+          renderRow={this.renderRow}
+        />
         <Button
-          title="Go to next page"
-          onPress={this.props.change}
+          title="Confirm"
+          onPress={() => {
+            Vibration.vibrate(100);
+            this.props.change();
+          }}
         />
       </View>
     );
+  }
+
+  renderRow = (rowData, sectionID, rowID) => {
+    return (
+      <TouchableHighlight style={styles.row} underlayColor="#FFF" onPress={this._handlePress(rowData)}>
+        <Text style={styles.text}>
+          {rowData.place}
+        </Text>
+      </TouchableHighlight>
+    );
+  }
+
+  _handlePress = (rowData) => () => {
+    console.log(rowData.place);
+    Vibration.vibrate(100);
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 60,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  btleConnectionStatus: {
-    // fontSize: 20,
-    paddingTop: 20
+    backgroundColor: '#F5FCFF',
+    flexDirection: 'column',
   },
   headline: {
-    fontSize: 20,
-    paddingTop: 20
+    fontSize: 25,
+    alignSelf: 'center',
+    padding: 16,
   },
   row: {
-    padding: 8,
-    paddingBottom: 16
+    padding: 16,
+    marginBottom: 10,
+    flex: 1,
+    alignItems : 'center',
+    backgroundColor: '#E1EEF4',
   },
-  smallText: {
-    fontSize: 11
+  text: {
+    fontSize: 20,
   },
-  icon: {
-    alignItems: 'center',
-    alignSelf: 'center',
-    height: 100,
-    justifyContent: 'center',
-    position: 'absolute',
-    width: 100
-  }
 });
 
 AppRegistry.registerComponent(

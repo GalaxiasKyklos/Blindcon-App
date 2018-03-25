@@ -1,5 +1,6 @@
-import placesDS from './places';
+import { getPlaces, getPlace, } from './places';
 
-export default {
-  ...placesDS,
+export {
+  getPlaces,
+  getPlace,
 };
