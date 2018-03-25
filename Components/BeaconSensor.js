@@ -89,7 +89,7 @@ class BeaconSensor extends Component {
           Proximity: {rowData.proximity ? rowData.proximity : 'NA'}
         </Text>
         <Text>
-          Distance: {rowData.accuracy ? rowData.accuracy.toFixed(2) : 'NA'}m
+          Distance: {rowData.distance ? rowData.distance : 'NA'}
         </Text>
       </View>
     );
