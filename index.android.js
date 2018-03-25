@@ -2,10 +2,7 @@
 
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-
-import ListPlaces from './Components/ListPlaces';
-import BeaconSensor from './Components/BeaconSensor';
-import Heading from './Components/Heading';
+import { ListPlaces, BeaconSensor, Heading } from './Components';
 
 const Components = {
   ListPlaces,
