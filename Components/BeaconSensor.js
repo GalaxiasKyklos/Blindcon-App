@@ -16,10 +16,6 @@ class BeaconSensor extends Component {
     };
   }
 
-  static navigationOptions = {
-    title: 'Blindcon',
-  };
-
   componentWillMount() {
     //
     // ONLY non component state aware here in componentWillMount

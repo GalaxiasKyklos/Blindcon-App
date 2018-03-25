@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
 
-import NextPage from './test';
-import BeaconSensor from './BeaconSensor';
+import NextPage from './Components/test';
+import BeaconSensor from './Components/BeaconSensor';
 
 const Components = {
   NextPage,
@@ -35,14 +35,9 @@ class BlindconApp extends Component {
   render() {
     const { Current } = this.state;
 
-    return <Current {...this.props} change={this.goToNext} />;
+    return <Current {...this.props} change={ Current === NextPage ? this.goToBeaconSensor : this.goToNext } />;
   }
 }
-
-//const SimpleApp = StackNavigator({
-  //Main: {screen: BeaconSensor},
-  //Next: {screen: NextPage},
-//});
 
 AppRegistry.registerComponent(
   'BlindconApp',

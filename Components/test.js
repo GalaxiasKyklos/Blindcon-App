@@ -1,25 +1,19 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View } from 'react-native';
-
+import { AppRegistry, StyleSheet, Text, View, Button } from 'react-native';
 
 class NextPage extends Component {
   constructor(props) {
     super(props);
   }
 
-  componentWillMount() {
-    console.log(`::${this.props}`);
-  }
-
-  static navigationOptions = {
-    title: 'Next',
-  };
   render() {
-    // StackNavigator **only** accepts a screenProps prop so we're passing
-    // initialProps through that.
     return (
       <View style={styles.container}>
         <Text style={styles.smallText}>Hola</Text>
+        <Button
+          title="Go to next page"
+          onPress={this.props.change}
+        />
       </View>
     );
   }
