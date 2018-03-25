@@ -56,7 +56,6 @@ class BeaconSensor extends Component {
 
   render() {
     const { dataSource } =  this.state;
-    const { navigate } = this.props.navigation || { navigate: console.log };
     return (
       <View style={styles.container}>
         <Text style={styles.headline}>
