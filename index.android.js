@@ -5,6 +5,7 @@ import { AppRegistry } from 'react-native';
 
 import NextPage from './Components/test';
 import BeaconSensor from './Components/BeaconSensor';
+import Heading from './Components/Heading';
 
 const Components = {
   NextPage,
@@ -35,7 +36,11 @@ class BlindconApp extends Component {
   render() {
     const { Current } = this.state;
 
-    return <Current {...this.props} change={ Current === NextPage ? this.goToBeaconSensor : this.goToNext } />;
+    return (
+      <Heading>
+        <Current {...this.props} change={ Current === NextPage ? this.goToBeaconSensor : this.goToNext } />
+      </Heading>
+    );
   }
 }
 
