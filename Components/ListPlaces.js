@@ -46,15 +46,13 @@ class ListPlaces extends Component {
     );
   }
 
-  renderRow = (rowData, sectionID, rowID) => {
-    return (
-      <TouchableHighlight style={styles.row} underlayColor="#FFF" onPress={this._handlePress(rowData)}>
-        <Text style={styles.text}>
-          {rowData.place}
-        </Text>
-      </TouchableHighlight>
-    );
-  }
+  renderRow = (rowData, sectionID, rowID) => (
+    <TouchableHighlight style={styles.row} underlayColor="#FFF" onPress={this._handlePress(rowData)}>
+      <Text style={styles.text}>
+        {rowData.place}
+      </Text>
+    </TouchableHighlight>
+  );
 
   _handlePress = (rowData) => () => {
     console.log(rowData.place);
