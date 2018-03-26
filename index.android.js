@@ -2,11 +2,12 @@
 
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import { ListPlaces, BeaconSensor, Heading } from './Components';
+import { ListPlaces, BeaconSensor, Heading, Directions } from './Components';
 
 const Components = {
   ListPlaces,
-  BeaconSensor
+  BeaconSensor,
+  Directions,
 };
 
 class BlindconApp extends Component {
@@ -14,7 +15,7 @@ class BlindconApp extends Component {
     super(props);
 
     this.state = {
-      Current: Components.ListPlaces,
+      Current: Components.Directions,
     };
   }
 
