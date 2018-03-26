@@ -15,7 +15,7 @@ class BlindconApp extends Component {
     super(props);
 
     this.state = {
-      Current: Components.Directions,
+      Current: Components.ListPlaces,
     };
   }
 
@@ -27,7 +27,7 @@ class BlindconApp extends Component {
 
   goToBeaconSensor = () => {
     this.setState({
-      Current: Components.BeaconSensor,
+      Current: Components.Directions,
     });
   }
 

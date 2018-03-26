@@ -7,9 +7,9 @@ import {
   Text,
   TouchableHighlight,
   View,
-  Vibration,
 } from 'react-native';
 import { getPlaces } from '../data-source';
+import { withVibration, } from '../utils';
 
 class ListPlaces extends Component {
   constructor(props) {
@@ -37,10 +37,7 @@ class ListPlaces extends Component {
         />
         <Button
           title="Confirm"
-          onPress={() => {
-            Vibration.vibrate(100);
-            this.props.change();
-          }}
+          onPress={withVibration(this.props.change)}
         />
       </View>
     );
@@ -55,8 +52,7 @@ class ListPlaces extends Component {
   );
 
   _handlePress = (rowData) => () => {
-    console.log(rowData.place);
-    Vibration.vibrate(100);
+    withVibration(console.log)(rowData.place);
   }
 }
 

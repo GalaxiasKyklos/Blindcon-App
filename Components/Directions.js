@@ -5,9 +5,9 @@ import {
   Dimensions,
   StyleSheet,
   Text,
-  Vibration,
   View,
 } from 'react-native';
+import { withVibration, } from '../utils';
 
 class Directions extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class Directions extends Component {
         </View>
         <Button
           title={this.props.buttonText}
-          onPress={this.props.buttonAction}
+          onPress={withVibration(this.props.change)}
         />
       </View>
     );
@@ -34,9 +34,6 @@ class Directions extends Component {
 Directions.defaultProps = {
   text: 'Getting directions, please wait',
   buttonText: 'Cancel',
-  buttonAction: () => {
-    Vibration.vibrate(100);
-  },
 };
 
 const styles = StyleSheet.create({
