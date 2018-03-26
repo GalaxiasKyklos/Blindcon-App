@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, ListView, View, DeviceEventEmitter, Button } from 'react-native';
 import Beacons from 'react-native-beacons-manager';
+import NextPage from './test';
 
 class BeaconSensor extends Component {
   constructor(props) {
@@ -69,7 +70,7 @@ class BeaconSensor extends Component {
         />
         <Button
           title="Go to next page"
-          onPress={this.props.change}
+          onPress={this.props.goToComponent(NextPage)}
         />
       </View>
     );

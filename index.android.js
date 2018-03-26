@@ -20,6 +20,12 @@ class BlindconApp extends Component {
     };
   }
 
+  goToComponent = Current => () => {
+    this.setState({
+      Current
+    });
+  }
+
   goToNext = () => {
     this.setState({
       Current: Components.NextPage
@@ -35,7 +41,7 @@ class BlindconApp extends Component {
   render() {
     const { Current } = this.state;
 
-    return <Current {...this.props} change={this.goToNext} />;
+    return <Current {...this.props} change={this.goToNext} goToComponent={this.goToComponent} />;
   }
 }
 
