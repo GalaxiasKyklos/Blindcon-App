@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  AppRegistry,
   Button,
   ListView,
   StyleSheet,
@@ -8,53 +7,37 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import { getPlaces } from '../data-source';
-import { withVibration, } from '../utils';
 
-class ListPlaces extends Component {
-  constructor(props) {
-    super(props);
-    const places = getPlaces();
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2 }
-    );
-    this.state = {
-      places: ds.cloneWithRows(places),
-    };
-  }
+import { withVibration, constants } from '../utils';
 
-  render() {
-    const { places } = this.state;
-    return (
-      <View style={styles.container}>
-        <Text style={styles.headline}>
-          Chose a destination
-        </Text>
-        <ListView
-          dataSource={places}
-          enableEmptySections={true}
-          renderRow={this.renderRow}
-        />
-        <Button
-          title="Confirm"
-          onPress={withVibration(this.props.change)}
-        />
-      </View>
-    );
-  }
+const handlePress = (rowData) => () => {
+  withVibration(console.log)(rowData.place);
+};
 
-  renderRow = (rowData, sectionID, rowID) => (
-    <TouchableHighlight style={styles.row} underlayColor="#FFF" onPress={this._handlePress(rowData)}>
-      <Text style={styles.text}>
-        {rowData.place}
-      </Text>
-    </TouchableHighlight>
-  );
+const renderRow = (rowData, sectionID, rowID) => (
+  <TouchableHighlight style={styles.row} underlayColor="#FFF" onPress={handlePress(rowData)}>
+    <Text style={styles.text}>
+      {rowData.place}
+    </Text>
+  </TouchableHighlight>
+);
 
-  _handlePress = (rowData) => () => {
-    withVibration(console.log)(rowData.place);
-  }
-}
+const ListPlaces = ({ change, places }) => (
+  <View style={styles.container}>
+    <Text style={styles.headline}>
+      Chose a destination
+    </Text>
+    <ListView
+      dataSource={places}
+      enableEmptySections={true}
+      renderRow={renderRow}
+    />
+    <Button
+      title="Confirm"
+      onPress={withVibration(change(constants.DIRECTIONS))}
+    />
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -79,10 +62,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
-
-AppRegistry.registerComponent(
-  'ListPlaces',
-  () => ListPlaces
-);
 
 export default ListPlaces;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, ListView, View, DeviceEventEmitter, Button } from 'react-native';
+import { StyleSheet, Text, ListView, View, DeviceEventEmitter, Button } from 'react-native';
 import Beacons from 'react-native-beacons-manager';
 
 class BeaconSensor extends Component {
@@ -47,6 +47,7 @@ class BeaconSensor extends Component {
   }
 
   componentWillUnMount(){
+    DeviceEventEmitter.removeListener('beaconsDidRange');
     this.beaconsDidRange = null;
   }
 
@@ -128,11 +129,5 @@ const styles = StyleSheet.create({
     width: 100
   }
 });
-
-AppRegistry.registerComponent(
-  'BeaconSensor',
-  () => BeaconSensor
-);
-
 
 export default BeaconSensor;

@@ -1,35 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  AppRegistry,
   Button,
   Dimensions,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import { withVibration, } from '../utils';
+import { withVibration, constants } from '../utils';
 
-class Directions extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.directionContainer}>
-          <Text style={styles.direction}>
-            {this.props.text}
-          </Text>
-        </View>
-        <Button
-          title={this.props.buttonText}
-          onPress={withVibration(this.props.change)}
-        />
-      </View>
-    );
-  }
-}
+const Directions = ({ text, buttonText, change }) => (
+  <View style={styles.container}>
+    <View style={styles.directionContainer}>
+      <Text style={styles.direction}>
+        {text}
+      </Text>
+    </View>
+    <Button
+      title={buttonText}
+      onPress={withVibration(change(constants.LISTPLACES))}
+    />
+  </View>
+);
 
 Directions.defaultProps = {
   text: 'Getting directions, please wait',
@@ -57,11 +48,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
-AppRegistry.registerComponent(
-  'Directions',
-  () => Directions
-);
-
 
 export default Directions;

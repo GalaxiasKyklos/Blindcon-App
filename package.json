@@ -27,6 +27,7 @@
   "bundle-run": "yarn bundle-android && yarn run-android"
  },
  "dependencies": {
+  "axios": "^0.18.0",
   "react": "~15.4.0",
   "react-native": "0.41.2",
   "react-native-beacons-manager": "^1.0.1",

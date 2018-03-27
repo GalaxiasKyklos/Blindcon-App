@@ -1,33 +1,46 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { AppRegistry } from 'react-native';
+import { AppRegistry, ListView } from 'react-native';
 import { ListPlaces, BeaconSensor, Heading, Directions } from './Components';
+import { constants, instance as axios } from './utils';
+
+const { LISTPLACES, BEACONSENSOR, DIRECTIONS } = constants;
 
 const Components = {
-  ListPlaces,
-  BeaconSensor,
-  Directions,
+  [LISTPLACES]: ListPlaces,
+  [BEACONSENSOR]: BeaconSensor,
+  [DIRECTIONS]: Directions,
 };
 
 class BlindconApp extends Component {
   constructor(props) {
     super(props);
+    const listPlaceDs = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2 }
+    );
 
     this.state = {
-      Current: Components.ListPlaces,
+      Current: Components[LISTPLACES],
+      props: {
+        places: listPlaceDs.cloneWithRows([]),
+      }
     };
   }
 
-  goToListPlaces = () => {
-    this.setState({
-      Current: Components.ListPlaces,
-    });
+  componentDidMount = () => {
+    axios.get('api/places').then(({data}) => {
+      this.setState({
+        props: {
+          places: this.state.props.places.cloneWithRows(data),
+        }
+      });
+    }).catch(console.log);
   }
 
-  goToBeaconSensor = () => {
+  goToComponent = nextComponent => () => {
     this.setState({
-      Current: Components.Directions,
+      Current: Components[nextComponent],
     });
   }
 
@@ -36,7 +49,7 @@ class BlindconApp extends Component {
 
     return (
       <Heading>
-        <Current {...this.props} change={ Current === ListPlaces ? this.goToBeaconSensor : this.goToListPlaces } />
+        <Current {...this.state.props} change={this.goToComponent} />
       </Heading>
     );
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
 class Heading extends Component {
@@ -29,11 +29,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-AppRegistry.registerComponent(
-  'Heading',
-  () => Heading
-);
-
 
 export default Heading;
