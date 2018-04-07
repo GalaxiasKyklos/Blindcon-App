@@ -14,7 +14,7 @@ const constants = {
 };
 
 const instance = axios.create({
-  baseURL: 'https://af280d91.ngrok.io',
+  baseURL: 'ec2-18-222-35-78.us-east-2.compute.amazonaws.com',
 });
 
 export {
