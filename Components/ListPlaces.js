@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Button,
   ListView,
   StyleSheet,
   Text,
@@ -10,19 +9,20 @@ import {
 
 import { withVibration, constants } from '../utils';
 
-const handlePress = (rowData) => () => {
-  withVibration(console.log)(rowData.place);
+const handlePress = (rowData, setDestination, change) => () => {
+  withVibration(setDestination)(rowData.place);
+  change();
 };
 
-const renderRow = (rowData, sectionID, rowID) => (
-  <TouchableHighlight style={styles.row} underlayColor="#FFF" onPress={handlePress(rowData)}>
+const renderRow = (setDestination, change) => (rowData, sectionID, rowID) => (
+  <TouchableHighlight style={styles.row} underlayColor="#FFF" onPress={handlePress(rowData, setDestination, change)}>
     <Text style={styles.text}>
       {rowData.place}
     </Text>
   </TouchableHighlight>
 );
 
-const ListPlaces = ({ change, places }) => (
+const ListPlaces = ({ change, places, setDestination }) => (
   <View style={styles.container}>
     <Text style={styles.headline}>
       Chose a destination
@@ -30,11 +30,7 @@ const ListPlaces = ({ change, places }) => (
     <ListView
       dataSource={places}
       enableEmptySections={true}
-      renderRow={renderRow}
-    />
-    <Button
-      title="Confirm"
-      onPress={withVibration(change(constants.DIRECTIONS))}
+      renderRow={renderRow(setDestination, change(constants.DIRECTIONS))}
     />
   </View>
 );

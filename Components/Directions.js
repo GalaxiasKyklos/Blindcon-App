@@ -8,23 +8,40 @@ import {
 } from 'react-native';
 import { withVibration, constants } from '../utils';
 
-const Directions = ({ text, buttonText, change }) => (
-  <View style={styles.container}>
-    <View style={styles.directionContainer}>
-      <Text style={styles.direction}>
-        {text}
-      </Text>
+const handleCancel = (change, reset) => () => {
+  change();
+  reset();
+}
+
+const Directions = ({ buttonText, change, currentPlace, route, resetRoute }) => {
+  console.log('currentPlace', currentPlace);
+  console.log('route', route);
+  let text = 'Obteniendo indicaciones';
+  if (currentPlace.place && route.length > 0){
+    const index = route.findIndex(r => r === currentPlace.place)
+    if (index === route.length - 1){
+      text = `Has llegado a ${route[index]}`;
+    } else {
+      text = `Estas en ${route[index]} en dirección a ${route[index + 1]}`;
+    }
+  }
+  return (
+    <View style={styles.container}>
+      <View style={styles.directionContainer}>
+        <Text style={styles.direction}>
+          {text}
+        </Text>
+      </View>
+      <Button
+        title={buttonText}
+        onPress={withVibration(handleCancel(change(constants.LISTPLACES), resetRoute))}
+      />
     </View>
-    <Button
-      title={buttonText}
-      onPress={withVibration(change(constants.LISTPLACES))}
-    />
-  </View>
-);
+  );
+} 
 
 Directions.defaultProps = {
-  text: 'Getting directions, please wait',
-  buttonText: 'Cancel',
+  buttonText: 'Elegir otro destino',
 };
 
 const styles = StyleSheet.create({
