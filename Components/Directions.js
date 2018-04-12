@@ -11,14 +11,14 @@ import { withVibration, constants } from '../utils';
 const handleCancel = (change, reset) => () => {
   change();
   reset();
-}
+};
 
 const Directions = ({ buttonText, change, currentPlace, route, resetRoute }) => {
   console.log('currentPlace', currentPlace);
   console.log('route', route);
   let text = 'Obteniendo indicaciones';
   if (currentPlace.place && route.length > 0){
-    const index = route.findIndex(r => r === currentPlace.place)
+    const index = route.findIndex(r => r === currentPlace.place);
     if (index === route.length - 1){
       text = `Has llegado a ${route[index]}`;
     } else {
@@ -38,7 +38,7 @@ const Directions = ({ buttonText, change, currentPlace, route, resetRoute }) => 
       />
     </View>
   );
-} 
+};
 
 Directions.defaultProps = {
   buttonText: 'Elegir otro destino',

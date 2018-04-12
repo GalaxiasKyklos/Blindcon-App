@@ -54,7 +54,9 @@ class BlindconApp extends Component {
       'beaconsDidRange',
       (data) => {
         console.log(data);
-        if (data.beacons.length === 0) return;
+        if (data.beacons.length === 0) {
+          return;
+        }
         let route = this.state.route;
         const currentBeacon =  data.beacons[0];
         const place = this.state.placesList.find(p => p.beacon.id.toLowerCase() === currentBeacon.uuid.toLowerCase());
