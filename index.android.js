@@ -81,7 +81,9 @@ class BlindconApp extends Component {
       data.forEach(place => {
         const routes = [];
         for (const key in place.links) {
-          routes.push({ [key]: Number(place.links[key].weight) });
+          if (place.links[key].active) {
+            routes.push({ [key]: Number(place.links[key].weight) });
+          }
         }
         const links = routes.reduce((acc, current) => ({...acc, ...current}), {});
         graph.addNode(place.place, links);
