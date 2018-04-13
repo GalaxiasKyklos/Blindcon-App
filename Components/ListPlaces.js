@@ -25,11 +25,11 @@ const renderRow = (setDestination, change) => (rowData, sectionID, rowID) => (
 const ListPlaces = ({ change, places, setDestination }) => (
   <View style={styles.container}>
     <Text style={styles.headline}>
-      Selecciona tu destino
+      Chose a destination
     </Text>
     <ListView
       dataSource={places}
-      enableEmptySections
+      enableEmptySections={true}
       renderRow={renderRow(setDestination, change(constants.DIRECTIONS))}
     />
   </View>
