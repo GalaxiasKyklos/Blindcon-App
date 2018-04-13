@@ -2,15 +2,16 @@
 
 import React, { Component } from 'react';
 import { AppRegistry, ListView, DeviceEventEmitter } from 'react-native';
-import { ListPlaces, Heading, Directions } from './Components';
+import { ListPlaces, BeaconSensor, Heading, Directions } from './Components';
 import Beacons from 'react-native-beacons-manager';
 import { constants, instance as axios } from './utils';
 import Graph from 'node-dijkstra';
 
-const { LISTPLACES, DIRECTIONS } = constants;
+const { LISTPLACES, BEACONSENSOR, DIRECTIONS } = constants;
 
 const Components = {
   [LISTPLACES]: ListPlaces,
+  [BEACONSENSOR]: BeaconSensor,
   [DIRECTIONS]: Directions,
 };
 
@@ -24,18 +25,16 @@ class BlindconApp extends Component {
 
     this.state = {
       Current: Components[LISTPLACES],
-      placesList: [],
-      origin: null,
-      destination: null,
       graph,
       props: {
         places: listPlaceDs.cloneWithRows([]),
-        change: this.goToComponent,
-        setDestination: this.setDestination,
-        resetRoute: this.resetRoute,
-        currentPlace: { beacon:{ id: ''}},
-        route: [],
+        text: 'hola',
       },
+      placesList: [],
+      destination: null,
+      currentPlace: { beacon:{ id: ''}},
+      origin: null,
+      route: [],
     };
   }
 
@@ -58,19 +57,20 @@ class BlindconApp extends Component {
         if (data.beacons.length === 0) {
           return;
         }
-        let { route } = this.state.props;
-        const { placesList, origin, destination, props } = this.state;
+        let route = this.state.route;
         const currentBeacon =  data.beacons[0];
-        const place = placesList.find(p => p.beacon.id.toLowerCase() === currentBeacon.uuid.toLowerCase());
+        const place = this.state.placesList.find(p => p.beacon.id.toLowerCase() === currentBeacon.uuid.toLowerCase());
 
-        if (origin && destination && route.length === 0) {
-          route = this.calculateRoute(origin, destination);
+        if (this.state.origin && this.state.destination && route.length === 0) {
+          route = this.calculateRoute();
         }
 
-        if (currentBeacon.uuid.toLowerCase() !== props.currentPlace.beacon.id.toLowerCase() || route.length > 0){
+        if (currentBeacon.uuid.toLowerCase() !== this.state.currentPlace.beacon.id.toLowerCase() || route.length > 0){
           this.setState({
-            props: { ...props, route, currentPlace: place ? place : { beacon: { id: ''}} },
-            origin: origin && route.length !== 0 ? origin : place ? place.place : origin,
+            props: {...this.state.props, text: place ? place.place : this.state.props.text },
+            currentPlace: place ? place : { beacon: { id: ''}},
+            origin: this.state.origin && route.length !== 0 ? this.state.origin : place ? place.place : this.state.origin,
+            route,
           });
         }
       }
@@ -78,7 +78,6 @@ class BlindconApp extends Component {
 
     axios.get('api/places').then(({data}) => {
       const graph = new Graph();
-
       data.forEach(place => {
         const routes = [];
         for (const key in place.links) {
@@ -86,7 +85,6 @@ class BlindconApp extends Component {
             routes.push({ [key]: Number(place.links[key].weight) });
           }
         }
-
         const links = routes.reduce((acc, current) => ({...acc, ...current}), {});
         graph.addNode(place.place, links);
 
@@ -117,18 +115,17 @@ class BlindconApp extends Component {
 
   setDestination = destination => {
     let route = [];
-    const { origin, props } = this.state;
-    if (origin) {
-      route = this.calculateRoute(origin, destination);
+    if (this.state.origin && this.state.destination) {
+      route = this.calculateRoute();
     }
     this.setState({
       destination,
-      props: { ...props, route },
+      route,
     });
   }
 
-  calculateRoute = (origin, destination) => {
-    const { graph } = this.state;
+  calculateRoute = () => {
+    const { graph, origin, destination } = this.state;
     console.log('ruta calculada');
     return graph.path(origin, destination);
   }
@@ -137,20 +134,17 @@ class BlindconApp extends Component {
     this.setState({
       origin: null,
       destination: null,
-      props: {
-        ...this.state.props,
-        route: [],
-        currentPlace: { beacon:{ id: ''}},
-      }
+      route: [],
+      currentPlace: { beacon:{ id: ''}},
     });
   }
 
   render() {
-    const { Current, props } = this.state;
+    const { Current } = this.state;
 
     return (
       <Heading>
-        <Current {...props}/>
+        <Current {...this.state.props} change={this.goToComponent} setDestination={this.setDestination} currentPlace={this.state.currentPlace} route={this.state.route} resetRoute={this.resetRoute}/>
       </Heading>
     );
   }

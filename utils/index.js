@@ -6,7 +6,6 @@ const withVibration = (func = () => {}, time = 100) =>
     Vibration.vibrate(time);
     func(...args);
   };
-
 const constants = {
   BEACONSENSOR: 'BeaconSensor',
   DIRECTIONS: 'Directions',
