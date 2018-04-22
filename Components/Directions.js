@@ -13,13 +13,12 @@ const handleCancel = (change, reset) => () => {
   reset();
 };
 
-const Directions = ({ buttonText, change, currentPlace, route, resetRoute }) => {
-  console.log('currentPlace', currentPlace);
-  console.log('route', route);
+const Directions = ({ buttonText, change, currentPlace, route, resetRoute, sendLog }) => {
   let text = 'Obteniendo indicaciones';
   if (currentPlace.place && route.length > 0){
     const index = route.findIndex(r => r === currentPlace.place);
     if (index === route.length - 1){
+      sendLog(false);
       text = `Has llegado a ${route[index]}`;
     } else {
       text = `Estas en ${route[index]} en dirección a ${route[index + 1]}`;

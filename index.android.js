@@ -27,6 +27,7 @@ class BlindconApp extends Component {
       placesList: [],
       origin: null,
       destination: null,
+      log: [],
       graph,
       props: {
         places: listPlaceDs.cloneWithRows([]),
@@ -35,6 +36,7 @@ class BlindconApp extends Component {
         resetRoute: this.resetRoute,
         currentPlace: { beacon:{ id: ''}},
         route: [],
+        sendLog: this.sendLog,
       },
     };
   }
@@ -54,7 +56,6 @@ class BlindconApp extends Component {
     this.beaconsDidRange = DeviceEventEmitter.addListener(
       'beaconsDidRange',
       (data) => {
-        console.log(data);
         if (data.beacons.length === 0) {
           return;
         }
@@ -68,9 +69,20 @@ class BlindconApp extends Component {
         }
 
         if (currentBeacon.uuid.toLowerCase() !== props.currentPlace.beacon.id.toLowerCase() || route.length > 0){
+          let toLog;
+          if (currentBeacon.uuid.toLowerCase() !== props.currentPlace.beacon.id.toLowerCase()) {
+            if (['near', 'immediate'].some(a => a === data.beacons[0].proximity)) {
+              toLog = {
+                place,
+                time: Date.now(),
+              };
+            }
+          }
+
           this.setState({
             props: { ...props, route, currentPlace: place ? place : { beacon: { id: ''}} },
             origin: origin && route.length !== 0 ? origin : place ? place.place : origin,
+            log: toLog ? [...this.state.log, toLog] : this.state.log
           });
         }
       }
@@ -91,7 +103,6 @@ class BlindconApp extends Component {
         graph.addNode(place.place, links);
 
       });
-      console.log(graph);
 
       this.setState({
         graph,
@@ -133,10 +144,28 @@ class BlindconApp extends Component {
     return graph.path(origin, destination);
   }
 
+  sendLog = (partialRoute = true) => {
+    if (this.state.log.length !== 0) {
+      const data = {
+        destination: this.state.destination,
+        origin: this.state.origin,
+        partialRoute,
+        places: this.state.log,
+      };
+      axios.post('api/log', data).then(() => {
+        this.setState({
+          log: [],
+        });
+      }).catch(console.error);
+    }
+  }
+
   resetRoute = () => {
+    this.sendLog();
     this.setState({
       origin: null,
       destination: null,
+      log: [],
       props: {
         ...this.state.props,
         route: [],
