@@ -140,7 +140,6 @@ class BlindconApp extends Component {
 
   calculateRoute = (origin, destination) => {
     const { graph } = this.state;
-    console.log('ruta calculada');
     return graph.path(origin, destination);
   }
 
@@ -152,11 +151,13 @@ class BlindconApp extends Component {
         partialRoute,
         places: this.state.log,
       };
-      axios.post('api/log', data).then(() => {
+      axios.post('api/log', data).then().catch(console.error);
+      console.log(':::', partialRoute);
+      if (!partialRoute) {
         this.setState({
           log: [],
         });
-      }).catch(console.error);
+      }
     }
   }
 
