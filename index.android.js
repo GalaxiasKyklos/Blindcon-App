@@ -152,12 +152,9 @@ class BlindconApp extends Component {
         places: this.state.log,
       };
       axios.post('api/log', data).then().catch(console.error);
-      console.log(':::', partialRoute);
-      if (!partialRoute) {
-        this.setState({
-          log: [],
-        });
-      }
+      this.setState({
+        log: [],
+      });
     }
   }
 

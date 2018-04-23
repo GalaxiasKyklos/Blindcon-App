@@ -13,31 +13,42 @@ const handleCancel = (change, reset) => () => {
   reset();
 };
 
-const Directions = ({ buttonText, change, currentPlace, route, resetRoute, sendLog }) => {
-  let text = 'Obteniendo indicaciones';
-  if (currentPlace.place && route.length > 0){
+class Directions extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    const { currentPlace, route, sendLog } = nextProps;
     const index = route.findIndex(r => r === currentPlace.place);
-    if (index === route.length - 1){
+    if (index === route.length - 1) {
+      console.log('sendLog');
       sendLog(false);
-      text = `Has llegado a ${route[index]}`;
-    } else {
-      text = `Estas en ${route[index]} en dirección a ${route[index + 1]}`;
     }
   }
-  return (
-    <View style={styles.container}>
-      <View style={styles.directionContainer}>
-        <Text style={styles.direction}>
-          {text}
-        </Text>
+
+  render() {
+    const { buttonText, change, currentPlace, route, resetRoute } = this.props;
+    let text = 'Obteniendo indicaciones';
+    if (currentPlace.place && route.length > 0) {
+      const index = route.findIndex(r => r === currentPlace.place);
+      if (index === route.length - 1) {
+        text = `Has llegado a ${route[index]}`;
+      } else {
+        text = `Estas en ${route[index]} en dirección a ${route[index + 1]}`;
+      }
+    }
+    return (
+      <View style={styles.container}>
+        <View style={styles.directionContainer}>
+          <Text style={styles.direction}>
+            {text}
+          </Text>
+        </View>
+        <Button
+          title={buttonText}
+          onPress={withVibration(handleCancel(change(constants.LISTPLACES), resetRoute))}
+        />
       </View>
-      <Button
-        title={buttonText}
-        onPress={withVibration(handleCancel(change(constants.LISTPLACES), resetRoute))}
-      />
-    </View>
-  );
-};
+    );
+  }
+}
 
 Directions.defaultProps = {
   buttonText: 'Elegir otro destino',
