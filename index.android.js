@@ -173,11 +173,11 @@ class BlindconApp extends Component {
   }
 
   render() {
-    const { Current, props } = this.state;
+    const { Current, props, placesList } = this.state;
 
     return (
       <Heading>
-        <Current {...props}/>
+        <Current {...props} placesList={placesList} />
       </Heading>
     );
   }

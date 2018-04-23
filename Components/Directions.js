@@ -18,20 +18,35 @@ class Directions extends React.Component {
     const { currentPlace, route, sendLog } = nextProps;
     const index = route.findIndex(r => r === currentPlace.place);
     if (index === route.length - 1) {
-      console.log('sendLog');
       sendLog(false);
     }
   }
 
+  getText(placesList, current, previous, next) {
+    const { coords: currentPlace } = placesList.find(p => p.place === current);
+    const { coords: previousPlace } = placesList.find(p => p.place === previous);
+    const { coords: nextPlace } = placesList.find(p => p.place === next);
+    const prevToCurr = Math.atan2(previousPlace.lon - currentPlace.lon, previousPlace.lat - currentPlace.lat);
+    const currToNext = Math.atan2(currentPlace.lon - nextPlace.lon, currentPlace.lat - nextPlace.lat);
+    const angle = currToNext - prevToCurr;
+    const direction = angle <= 0.2 && angle >= -0.2 ? 'continua recto' :
+                      angle > 0 ? 'da vuelta a la derecha' : 'da vuelta a la izquierda';
+    return `Vas en direccion a ${next}, ${direction}`;
+  }
+
   render() {
-    const { buttonText, change, currentPlace, route, resetRoute } = this.props;
+    const { buttonText, change, currentPlace, route, resetRoute, placesList } = this.props;
     let text = 'Obteniendo indicaciones';
     if (currentPlace.place && route.length > 0) {
       const index = route.findIndex(r => r === currentPlace.place);
       if (index === route.length - 1) {
         text = `Has llegado a ${route[index]}`;
       } else {
-        text = `Estas en ${route[index]} en dirección a ${route[index + 1]}`;
+        if (index === 0) {
+          text = `Estas en ${route[index]} en dirección a ${route[index + 1]}`;
+        } else {
+          text = this.getText(placesList, route[index], route[index - 1], route[index + 1]);
+        }
       }
     }
     return (
