@@ -13,6 +13,12 @@ const handleCancel = (change, reset) => () => {
   reset();
 };
 
+const crossProduct = (a, b) => {
+  const [a1, a2, a3] = a;
+  const [b1, b2, b3] = b;
+  return [ a2 * b3 - a3 * b2, a3 * b1 - a1 * b3, a1 * b2 - a2 * b1 ];
+};
+
 class Directions extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { currentPlace, route, sendLog } = nextProps;
@@ -22,16 +28,16 @@ class Directions extends React.Component {
     }
   }
 
-  getText(placesList, current, previous, next) {
-    const { coords: currentPlace } = placesList.find(p => p.place === current);
-    const { coords: previousPlace } = placesList.find(p => p.place === previous);
-    const { coords: nextPlace } = placesList.find(p => p.place === next);
-    const prevToCurr = Math.atan2(previousPlace.lon - currentPlace.lon, previousPlace.lat - currentPlace.lat);
-    const currToNext = Math.atan2(currentPlace.lon - nextPlace.lon, currentPlace.lat - nextPlace.lat);
-    const angle = currToNext - prevToCurr;
-    const direction = angle <= 0.2 && angle >= -0.2 ? 'continua recto' :
-                      angle > 0 ? 'da vuelta a la derecha' : 'da vuelta a la izquierda';
-    return `Vas en direccion a ${next}, ${direction}`;
+  getText(placesList, currentPlace, previousPlace, nextPlace) {
+    const { coords: current } = placesList.find(p => p.place === currentPlace);
+    const { coords: previous } = placesList.find(p => p.place === previousPlace);
+    const { coords: next } = placesList.find(p => p.place === nextPlace);
+    const prevToCurr = [current.lon - previous.lon, current.lat - previous.lat, 0];
+    const currToNext = [next.lon - current.lon, next.lat - current.lat, 0];
+    const [ , , angle] = crossProduct(prevToCurr, currToNext);
+    const direction = Math.abs(angle) <= 4e-9 ? 'sigue derecho' :
+                      `da vuelta a la ${angle > 0 ? 'izquierda' : 'derecha'}`;
+    return `Vas en direccion a ${nextPlace}, ${direction}`;
   }
 
   render() {
